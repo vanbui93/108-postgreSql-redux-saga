@@ -1,0 +1,32 @@
+﻿CREATE TABLE tasks (
+   id bigserial primary key,
+   title varchar(255) null,
+   description varchar(4000) null,
+   status BIGINT null
+)
+
+insert into tasks (title,description,status)
+values ('Học react js','Học bài 12',1)
+
+
+
+select * from tasks
+
+DELETE FROM product_info WHERE id=23;
+
+DROP TABLE product_info ;
+
+
+UPDATE product_info
+DELETE FROM product_info WHERE condition;
+SET 	product_name= 'May hut sua dien doi unimon minuet'
+WHERE id=1;
+
+
+UPDATE product_info
+SET product_name='Hồng đỏ Mỹ',product_price='150000',description='Hồng mỹ giá rẻ',quantity='15',product_image='https://product.hstatic.net/1000324420/product/upload_d07ae86f129b45c7b9828bc048ca9e00_1024x1024.jpg',vendor='Mỹ tho',type_product='không thuốc',variant='1kg',collection='organic',comparison_price='200000'
+WHERE id=12;
+
+
+'UPDATE product_info SET product_name=$2,product_price=$3,description=$4,quantity=$5,product_image=$6,vendor=$7,type_product=$8,variant=$9,collection=$10,comparison_price=$11 WHERE id=$1',
+[id,product_name,product_price,description,quantity,product_image,product_vendor,type_product,product_variant,p_collection,comparison_price]
