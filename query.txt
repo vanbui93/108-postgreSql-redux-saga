@@ -2,7 +2,7 @@
    id bigserial primary key,
    title varchar(255) null,
    description varchar(4000) null,
-   status BIGINT null
+   status int
 )
 
 insert into tasks (title,description,status)

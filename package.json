@@ -1,5 +1,4 @@
 {
-  "homepage": "http://iamPhong.github.io/108-postgreSql-redux-saga",
   "name": "learning-redux-saga",
   "version": "0.1.0",
   "private": true,
@@ -65,5 +64,6 @@
     "husky": "^4.2.5",
     "lint-staged": "^10.2.6",
     "prettier": "2.0.5"
-  }
+  },
+  "proxy": "http://localhost:3001"
 }
