@@ -12,7 +12,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - [Use BindActionCreators](#use-bindactioncreators)
 - [Install Toastify](#install-toastify)
 - [Install Redux-Saga](#install-redux-saga)
-- [### So sánh redux-thunk và redux-saga](#So-sánh-redux-thunk-và-redux-saga)
+- [So sánh redux-thunk và redux-saga](#So-sánh-redux-thunk-và-redux-saga)
 - [Sử dụng Redux-saga Fork](#sử-dụng-redux-saga-fork)
 - [Sử dụng Redux-saga Take](#sử-dụng-redux-saga-take)
 - [Sử dụng Redux-saga Call](#sử-dụng-redux-saga-call)
@@ -25,6 +25,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - [Redux-form: Validation - Ràng buộc dữ liệu](#redux-form-validation---ràng-buộc-dữ-liệu)
 - [Install classnames](#Install-classnames)
 - [Install react-router-dom](#Install-react-router-dom)
+- [Ứng dụng fullStack kết nối API](#ứng-dụng-fullStack-kết-nối-api)
+- [Connect PostgreSql](#connect-postgresql)
+- [Xử lý lỗi CORS POLICY](#xử-lý-lỗi-cors-policy)
 
 ## Install reactjs
 
@@ -582,11 +585,53 @@ var joinClass = require('classnames');
 Runs the app in the development mode.<br />
 Open [http://localhost:5000](http://localhost:5000) to view it in the browser.
 
+## Ứng dụng fullStack kết nối API
 
-## Connect PostgreSql
+### Connect PostgreSql
 - Bước 1: cài đặt express
 ```sh
-express 
+express name_server -e
+```
+- Bước 2: Trên `name_server` vừa được tạo ra
+```sh
+npm install
+```
+- Bước 3: Tiếp tục cài đặt postgreSql
+```sh
+npm install pg
+```
+- Bước 4:
+Trong `name_server` vào `routes` -> `index.js` dán code connect vào
+```js
+const express = require('express');
+var router = express.Router();
+const { Pool } = require('pg');
+
+const pool = new Pool({
+  user: 'dbuser',
+  host: 'database.server.com',
+  database: 'mydb',
+  password: 'secretpassword',
+  port: 3211,
+})
+
+pool.get('/', function (req, res) {
+  res.send(res.rows)
+})
+```
+### Xử lý lỗi CORS POLICY
+- Trong **Client** (Reactjs) vào file `package.json` sau đó thêm cái dưới vào trong đó `http://localhost:X000` là link của **Server** (Nodejs)<br>
+`"proxy": "http://localhost:X000"`
+- Trong **Server** (Nodejs) trước khi get data thêm đoạn code sau vào để xử lý lỗi<br>
+Trong đó `http://localhost:Y000` là link của **Client** (React js)
+
+```js
+router.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "http://localhost:Y000"); // update to match the domain you will make the request from
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+```
 
 ## Available Scripts
 
