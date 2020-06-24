@@ -11,7 +11,7 @@ export const getListTask = (params = {}) => {
   if (Object.keys(params).length > 0) {               //Nếu params có key
     queryParams = `?${qs.stringify(params)}`;
   }
-  return axiosService.get('http://localhost:3000/tasks');  //ở đây gọi hàm get
+  return axiosService.get(`${API_ENDPOINT}/${url}${queryParams}`);  //ở đây gọi hàm get
 }
 //http://localhost:3000/tasks   METHOD: POST
 export const addTask = data => {

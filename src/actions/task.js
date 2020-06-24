@@ -55,7 +55,7 @@ export const addTask = (title, description) => {
 }
 
 //sau khi add thành công thì trả về data
-export const addTaskSuccess = data => {
+export const addTaskSuccess = (data) => {
   return {
     type: taskConstants.ADD_TASK_SUCCESS,
     payload: {
