@@ -75,8 +75,13 @@ const taskReducer = (state = initialState, action) => {
     }
     case taskConstants.UPDATE_TASK_SUCCESS: {
       const { data } = action.payload;
+      console.log(data);
+
       const { listTask } = state;
       const index = listTask.findIndex((item) => (item.id === data.id));
+      console.log(index);
+      console.log(data);
+
       if (index !== -1) {
         const newListTask = [
           ...listTask.slice(0, index),      //cắt listTask từ vị trí 0 -> index

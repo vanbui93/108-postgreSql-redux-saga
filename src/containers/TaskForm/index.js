@@ -17,7 +17,7 @@ class TaskForm extends Component {
   handleSubmitForm = (data) => {
     const { taskActionCreators, taskEditing } = this.props;
     const { addTask, updateTask } = taskActionCreators;
-    const { title, description, status } = data;
+    const { id, title, description, status } = data;
 
 
     if (taskEditing && taskEditing.id) {

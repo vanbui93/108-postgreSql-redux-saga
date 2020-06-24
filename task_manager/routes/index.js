@@ -31,8 +31,8 @@ router.get('/tasks', function (req, res) {
 router.post('/tasks', function (req, res, next) {
   pool.connect(function (error) {   // phải có pool.connect ở đây thì mới được
     var title = req.body.title,
-    description = req.body.description,
-    status = req.body.status;
+      description = req.body.description,
+      status = req.body.status;
     sql = "insert into tasks (title,description,status) values ($1,$2,$3)";
     pool.query(sql, [title, description, status], (error, response) => {
       if (error) {  // nếu lỗi thì trả về error
@@ -67,8 +67,8 @@ router.get('/tasks/:id', function (req, res) {
       if (error) {  // nếu lỗi thì trả về error
         return console.error('error running query', err.message);
       } else {   // Nếu thành công trả về response
-        // console.log(response.rows); //console chỉ xem được trên backend thôi
-        return res.json({ response });
+        console.log(response.rows); //console chỉ xem được trên backend thôi
+        return res.send(response.rows);
       }
       // pool.end(); // đóng cổng kết nói csdl
     })
@@ -77,7 +77,6 @@ router.get('/tasks/:id', function (req, res) {
 
 //Tiến hành update vào api
 router.put('/tasks/:id', function (req, res) {
-  console.log('A flag was edited...');
   pool.connect(function (error) {
     var sql = "UPDATE tasks SET " +
       "title = '" + req.body.title + "'," +
@@ -85,10 +84,10 @@ router.put('/tasks/:id', function (req, res) {
       "status = '" + req.body.status + "'" +
       "WHERE id='" + req.params.id + "'";
     pool.query(sql, function (error, results) {
-      if (error) {
-        return console.error(error.message);
-      }
-      return res.json({ results });
+      const upContent = req.params.id
+      if (!upContent) return res.status(404).json({})
+      upContent.name = req.body
+      res.json(results)
     });
   })
 
