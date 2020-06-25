@@ -87,7 +87,7 @@ router.put('/tasks/:id', function (req, res) {
       const upContent = req.params.id
       if (!upContent) return res.status(404).json({})
       upContent.name = req.body
-      res.json(results)
+      return res.send(results);
     });
   })
 

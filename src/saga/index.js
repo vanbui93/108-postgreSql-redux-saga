@@ -103,15 +103,17 @@ function* updateTaskSaga({ payload }) {
   const { title, description, status } = payload;
   const taskEditing = yield select(state => state.task.taskEditing);
   yield put(showLoading());
+
+  //Gọi api để put data lên SERVER
   const resp = yield call(updateTask, { title, description, status }, taskEditing.id); //updateTask = (data, taskId) => data = { title, description, status }
 
-  const { data, status: statusCode } = resp;
-
+  //Xử lý để hiển thị dưới CLIENT ko liên quan đến server
+  const { status: statusCode } = resp;
   if (statusCode === STATUS_CODE.SUSCESS) {
-    yield put(updateTaskSuccess(data));
+    yield put(updateTaskSuccess(payload));
     yield put(hideModal());
   } else {
-    yield put(updateTaskFailed(data));
+    yield put(updateTaskFailed(payload));
   }
   yield delay(1000);
   yield put(hideLoading());

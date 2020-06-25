@@ -21,7 +21,7 @@ class TaskForm extends Component {
 
 
     if (taskEditing && taskEditing.id) {
-      updateTask(title, description, status);
+      updateTask(id, title, description, status);
       console.log(data);
     } else {
       addTask(title, description);
