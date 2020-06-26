@@ -27,18 +27,28 @@ router.get('/tasks', function (req, res) {
   })
 });
 
+
+// var sql = 'INSERT INTO users(password_hash, email) VALUES($1, $2) RETURNING id'
+// client.query(sql, ['841l14yah', 'test@te.st'], function (err, result) {
+//   if (err) //handle error
+//   else {
+//     var newlyCreatedUserId = result.rows[0].id;
+//   }
+// });
+
 /* ADD a product. */
 router.post('/tasks', function (req, res, next) {
   pool.connect(function (error) {   // phải có pool.connect ở đây thì mới được
     var title = req.body.title,
       description = req.body.description,
       status = req.body.status;
-    sql = "insert into tasks (title,description,status) values ($1,$2,$3)";
+    sql = "insert into tasks (title,description,status) values ($1,$2,$3) RETURNING id,title,description,status";
     pool.query(sql, [title, description, status], (error, response) => {
       if (error) {  // nếu lỗi thì trả về error
         return console.error('error running query', error);
       } else {   // Nếu thành công trả về response
-        res.send(response.rows);  //send dữ liệu phía api
+        res.send(response.rows[0]);  //send dữ liệu phía api
+        // console.log(response.rows[0]);
       }
     })
   })
@@ -82,12 +92,13 @@ router.put('/tasks/:id', function (req, res) {
       "title = '" + req.body.title + "'," +
       "description = '" + req.body.description + "'," +
       "status = '" + req.body.status + "'" +
-      "WHERE id='" + req.params.id + "'";
+      "WHERE id='" + req.params.id + "'" +
+      "RETURNING id,title,description,status";
     pool.query(sql, function (error, results) {
       const upContent = req.params.id
       if (!upContent) return res.status(404).json({})
       upContent.name = req.body
-      return res.send(results);
+      res.send(results.rows[0]);
     });
   })
 

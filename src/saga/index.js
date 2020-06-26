@@ -88,7 +88,10 @@ function* addTaskSaga({ payload }) {
     status: STATUSES[0].value,
   });
   const { data, status } = resp;
-  if (status === STATUS_CODE.CREATED) {
+  console.log(resp);
+
+//Để ý status trả về của Database, Khi INSERT, json-server = 201, postgresSql =200
+  if (status === 200) {
     yield put(addTaskSuccess(data));
     yield put(hideModal());
   } else {
@@ -108,12 +111,16 @@ function* updateTaskSaga({ payload }) {
   const resp = yield call(updateTask, { title, description, status }, taskEditing.id); //updateTask = (data, taskId) => data = { title, description, status }
 
   //Xử lý để hiển thị dưới CLIENT ko liên quan đến server
-  const { status: statusCode } = resp;
+  const { data, status: statusCode } = resp;
+
+  console.log(data);
+
+
   if (statusCode === STATUS_CODE.SUSCESS) {
-    yield put(updateTaskSuccess(payload));
+    yield put(updateTaskSuccess(data));
     yield put(hideModal());
   } else {
-    yield put(updateTaskFailed(payload));
+    yield put(updateTaskFailed(data));
   }
   yield delay(1000);
   yield put(hideLoading());
@@ -144,7 +151,7 @@ function* rootSaga() {
   yield fork(watchFetchListTaskAction);
   //sau khi action FILTER_TASK ĐÃ được thực thi thì thực hiện takeLatest
   yield takeLatest(taskTypes.FILTER_TASK, filterTaskSaga);    //taskLatest lắng nghe action
-  yield takeEvery(taskTypes.ADD_TASK, addTaskSaga);
+  yield takeLatest(taskTypes.ADD_TASK, addTaskSaga);
   yield takeLatest(taskTypes.UPDATE_TASK, updateTaskSaga);
   yield takeLatest(taskTypes.DELETE_TASK, deleteTaskSaga)
 }
