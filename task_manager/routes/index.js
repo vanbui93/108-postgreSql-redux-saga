@@ -8,8 +8,28 @@ router.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:5000"); // update to match the domain you will make the request from
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
-
   next();
+});
+
+//params => http://localhost:3000/users:id => req.params
+//query paramater  http://localhost:3000/users/?keyword=henry = req.query
+router.get('/users', async (req, res) => {
+  pool.connect(async (error) => {
+    try {
+      const { keyword } = req.query;
+
+      // search:  title và description => %{}%
+      // "Học reactjs bài 1"     => %bài%
+      // || => OR SQL || => Concat
+
+      const users = await pool.query(
+        "SELECT * FROM tasks WHERE title || ' ' || description LIKE $1",[`%${keyword}%`]
+      );
+      res.json(users.rows[0]);
+    } catch (err) {
+      console.error(err.message);
+    }
+  })
 });
 
 
