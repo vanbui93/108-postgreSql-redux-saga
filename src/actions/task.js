@@ -29,10 +29,10 @@ export const fetchListTaskFailed = error => {
   }
 }
 
-export const filterTask = keyword => ({
+export const filterTask = q => ({
   type: taskConstants.FILTER_TASK,
   payload: {
-    keyword,
+    q,
   }
 });
 

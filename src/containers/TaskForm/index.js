@@ -19,7 +19,7 @@ class TaskForm extends Component {
     const { addTask, updateTask } = taskActionCreators;
     const { id, title, description, status } = data;
 
-
+    
     if (taskEditing && taskEditing.id) {
       updateTask(id, title, description, status);
       console.log(data);

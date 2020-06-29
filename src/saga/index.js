@@ -60,22 +60,22 @@ function* watchFetchListTaskAction() {
 
 function* filterTaskSaga({ payload }) {
   yield delay(500);     //sau khi người dùng nhập đến kí tự cuối cùng, nữa giây sau thì mới thực hiện lấy kết quả
-  const { keyword } = payload;
-  console.log(keyword);
+  const { q } = payload;
+  console.log(q);
 
   //put => dispatch action
   yield put(
     fetchListTasks({
-      q: keyword,
+      q: q,
     })
   );
-  // const { keyword } = payload;
+  // const { q } = payload;
   // const list = yield select(state => state.task.listTask);
   // const filteredTask = list.filter(task =>
   //   task.title
   //     .trim()
   //     .toLowerCase()
-  //     .includes(keyword.trim().toLowerCase()),
+  //     .includes(q.trim().toLowerCase()),
   // );
   // yield put(filterTaskSuccess(filteredTask));   //dispatch action filterTaskSuccess
 }

@@ -12,20 +12,26 @@ router.use(function (req, res, next) {
 });
 
 //params => http://localhost:3000/users:id => req.params
-//query paramater  http://localhost:3000/users/?keyword=henry = req.query
-router.get('/users', async (req, res) => {
+//query paramater  http://localhost:3000/users/?q=henry = req.query
+router.get('/tasks', async (req, res) => {
   pool.connect(async (error) => {
     try {
-      const { keyword } = req.query;
+      const { q } = req.query;
 
       // search:  title và description => %{}%
       // "Học reactjs bài 1"     => %bài%
       // || => OR SQL || => Concat
-
-      const users = await pool.query(
-        "SELECT * FROM tasks WHERE title || ' ' || description LIKE $1",[`%${keyword}%`]
-      );
-      res.json(users.rows[0]);
+      if(q){
+        const users = await pool.query(
+          "SELECT * FROM tasks WHERE title || ' ' || description ILIKE $1",[`%${q}%`]
+        );
+        res.json(users.rows);
+      } else {
+        const usersDefault = await pool.query(
+          "SELECT * FROM tasks"
+        );
+        res.json(usersDefault.rows);
+      }
     } catch (err) {
       console.error(err.message);
     }
@@ -34,18 +40,18 @@ router.get('/users', async (req, res) => {
 
 
 /* GET product page. */
-router.get('/tasks', function (req, res) {
-  pool.connect(function (error) {
-    pool.query('SELECT * FROM tasks', (err, response) => {
-      if (error) {  // nếu lỗi thì trả về error
-        return console.error('error running query', error);
-      } else {   // Nếu thành công trả về response
-        res.send(response.rows);  //send dữ liệu phía api
-      }
-      // pool.end(); // đóng cổng kết nói csdl
-    })
-  })
-});
+// router.get('/tasks', function (req, res) {
+//   pool.connect(function (error) {
+//     pool.query('SELECT * FROM tasks', (err, response) => {
+//       if (error) {  // nếu lỗi thì trả về error
+//         return console.error('error running query', error);
+//       } else {   // Nếu thành công trả về response
+//         res.send(response.rows);  //send dữ liệu phía api
+//       }
+//       // pool.end(); // đóng cổng kết nói csdl
+//     })
+//   })
+// });
 
 
 // var sql = 'INSERT INTO users(password_hash, email) VALUES($1, $2) RETURNING id'
