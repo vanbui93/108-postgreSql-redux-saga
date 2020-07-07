@@ -1,4 +1,5 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+REACT JS - code được viết trong khi làm training của senior nghiepuit <br>
+Kênh youtube : https://www.youtube.com/channel/UCxRgDi15EJsB2ayyP-eg3Tg
 
 ## Table of Contents
 - [Sử dụng MATERIAL-UI](#sử-dụng-material-ui)
