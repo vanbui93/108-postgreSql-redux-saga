@@ -642,3 +642,9 @@ In the project directory, you can run:
 ```sh
 npm start
 ```
+
+## Các page
+http://localhost:3000/login <br/>
+http://localhost:3000/signup <br/>
+http://localhost:3000/admin <br/>
+http://localhost:3000/admin/task-board <br/>
